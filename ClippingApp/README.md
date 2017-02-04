@@ -1,7 +1,7 @@
 # BresenhamLineApp
 Application to draw lines after being computed with  Bresenham's Algorithm
 
-![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/BresenhamLinesApp/Kapture.gif)
+![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/ClippingApp/Kapture.gif)
 ## Libraries
 - PyOpenGL
 - virtualenv
@@ -14,9 +14,9 @@ $ source CurvesEnv/bin/activate
 ```
 2) cd to folder
 ```sh
-$ cd BresenhamLinesApp
+$ cd ClippingApp
 ```
 3) cd into any of the directories and run any of the programs for example
 ```sh
-$ python BresenhamLineApp.py
+$ python ClippingApp.py
 ```
