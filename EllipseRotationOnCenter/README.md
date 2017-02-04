@@ -1,5 +1,5 @@
-# BresenhamLineApp
-Application to draw lines after being computed with  Bresenham's Algorithm
+# Ellipse Rotation On Center
+Application that display an animation of an ellipse rotating on its center
 
 ![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/EllipseRotationOnCenter/Kapture.gif)
 ## Libraries
