@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
@@ -154,9 +155,9 @@ def mouse( button,  state,  x, y):
         else :
             terminalX = x
             terminalY = height - y
-            print initialX,initialY,terminalX,terminalY
+            #print initialX,initialY,terminalX,terminalY
             radius = distance(initialX, terminalX, initialY, terminalY)
-            print "radius : " , radius
+            #print "radius : " , radius
             computeCircle(initialX, initialY, radius)
             plotPoints()
             numberOfClicks = 0

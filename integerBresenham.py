@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
@@ -131,7 +133,7 @@ def mouse( button,  state,  x, y):
     linePoints = []
     #check for left click on relese
     if button == GLUT_LEFT_BUTTON and state == GLUT_UP:
-        print numberOfClicks
+        #print numberOfClicks
         if numberOfClicks == 0:
             initialX = x
             initialY = height - y
@@ -139,9 +141,10 @@ def mouse( button,  state,  x, y):
         else :
             terminalX = x
             terminalY = height - y
-            print initialX,initialY,terminalX,terminalY
+            #print initialX,initialY,terminalX,terminalY
             bresenhamAlg(initialX, initialY, terminalX, terminalY)
             drawLine()
+            print ( linePoints)
             numberOfClicks = 0
 '''----------------------------------------------------------------------------
 display:
@@ -151,9 +154,9 @@ display:
 ----------------------------------------------------------------------------'''
 def display():
     glClearColor(0.0,0.0,0.0,0.0)
-    glColor3f(255, 255, 255);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glFlush();
+    glColor3f(255, 255, 255)
+    glClear(GL_COLOR_BUFFER_BIT)
+    glFlush()
 
 '''----------------------------------------------------------------------------
 main:
