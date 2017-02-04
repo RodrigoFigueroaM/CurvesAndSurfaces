@@ -1,5 +1,6 @@
-# BresenhamLineApp
-Application to draw lines after being computed with  Bresenham's Algorithm
+# ClippingApp
+Application to clip a rectangle and ellipse. It clips most new rectangle and ellipse to make a new shape
+
 
 ![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/ClippingApp/Kapture.gif)
 ## Libraries
