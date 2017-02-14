@@ -54,6 +54,6 @@ class GLStandardDrawingWindow(QGLWidget):
         GL.glViewport(0, 0, w, h)
         GL.glMatrixMode(GL.GL_PROJECTION)
         GL.glLoadIdentity()
-        #  GL.glOrtho(0, self.width,self.height, 0 , 1, 0)
-        GLU.gluOrtho2D(-0.5, 1.5, -0.5 , 1.5)
+        GL.glPointSize(3.0)
+        GLU.gluOrtho2D(0, self.width, 0 ,self.height)
         GL.glMatrixMode(GL.GL_MODELVIEW)
