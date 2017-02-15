@@ -1,8 +1,0 @@
-Rectangle destroyed
-Ellipse destroyed
-Ellipse destroyed
-Rectangle destroyed
-Rectangle destroyed
-Ellipse destroyed
-Rectangle destroyed
-Ellipse destroyed
