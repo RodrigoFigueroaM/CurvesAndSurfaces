@@ -7,3 +7,8 @@ distance:
 def distance(p0, p1):
     distance = (p1 - p0)
     return  abs(distance)
+
+def isElementOfVector(point, v):
+    if v.pointOne == point or v.pointTwo == point: 
+        return True
+    return False

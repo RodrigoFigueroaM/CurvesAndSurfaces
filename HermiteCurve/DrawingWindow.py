@@ -18,7 +18,7 @@ attributes
 '''
 import math
 from Point import Point
-from Helper import distance
+from Helper import distance, isElementOfVector
 from Vector import Vector
 from HermiteCurve import HermiteCurve
 from random import random
@@ -46,17 +46,18 @@ class DrawingWindow(GLStandardDrawingWindow):
 
     def mousePressEvent(self, event):
         # check if pixel busy
-        '''NOTE: no testing'''
         bounds = 5
         i = 0
         for point in self.points:
-            # print("point" , point)
             #mouse bounds. Raise flag because space is taken
-            if ( point.x > event.x() - bounds and point.x <  event.x() + bounds
-                and  point.y <  self.height - event.y() +  bounds and  point.y > self.height - event.y()  - bounds ):
+            if ( point.x > event.x() - bounds
+                and point.x <  event.x() + bounds
+                and  point.y <  self.height - event.y() +  bounds
+                and  point.y > self.height - event.y()  - bounds ):
+
                 self.busyPixel = True
-                self.selectedPoint = point
                 self.selectedPointIndex = i
+                self.selectedPoint = point
                 self.lastMousePosition = event.pos()
                 print ("BUSY")
                 break
@@ -90,7 +91,7 @@ class DrawingWindow(GLStandardDrawingWindow):
 
                 hermiteCurve = HermiteCurve()
 
-                hermiteCurve.compute(v0.pointOne, v0.slope() * v0dist, v1.pointOne, v1.slope() * v1dist)
+                hermiteCurve.compute(v0.pointOne, v0.slope() * v0dist/3, v1.pointOne, v1.slope() * v1dist / 3)
                 hermiteCurve.scale(distance(v1.pointOne.x, v0.pointOne.x), 1)
                 hermiteCurve.translate(v0.pointOne.x,0)
                 self.history.append(hermiteCurve)
@@ -117,7 +118,8 @@ class DrawingWindow(GLStandardDrawingWindow):
 
                 distanceX = distance(self.selectedPoint.x, event.x())
                 distanceY =  distance(self.selectedPoint.y, self.height - event.y())
-
+                revertZero = 1
+                revertOne = 1
                 # left/ mouse moving right
                 if self.lastMousePosition.x() > event.x():
                     if rotationPoint.y <= self.selectedPoint.y :
@@ -132,9 +134,17 @@ class DrawingWindow(GLStandardDrawingWindow):
                     else:
                         self.selectedPoint.rotateOn( -1 * mousedx, rotationPoint.x, rotationPoint.y )
 
+                if not isElementOfVector(rotationPoint, v0):
+                    if rotationPoint.x > self.selectedPoint.x and rotationPoint.y < self.selectedPoint.y:
+                        revertOne = -1
+                    if rotationPoint.x > self.selectedPoint.x and rotationPoint.y > self.selectedPoint.y:
+                        revertOne = -1
+                else:
+                    if rotationPoint.x > self.selectedPoint.x and rotationPoint.y < self.selectedPoint.y:
+                        revertZero = -1
+                    if rotationPoint.x > self.selectedPoint.x and rotationPoint.y > self.selectedPoint.y:
+                        revertZero = -1
 
-                print("ROTATING ON :", rotationPoint.x, rotationPoint.y,  v0.slope(), v1.slope())
-                # print("h", hermiteCurve)
                 if self.selectedPoint == v0.pointOne or self.selectedPoint == v1.pointOne:
 
 
@@ -154,7 +164,7 @@ class DrawingWindow(GLStandardDrawingWindow):
                     if self.lastMousePosition.y() > event.y():
                         self.selectedPoint.translate(distanceX * mousedx, distanceY * mousedy, 0)
 
-                hermiteCurve.compute(v0.pointOne, v0.slope(), v1.pointOne, v1.slope() * v1dist)
+                hermiteCurve.compute(v0.pointOne, revertZero * v0.slope() * v0dist, v1.pointOne, revertOne * v1.slope() * v1dist)
                 hermiteCurve.scale(distance(v1.pointOne.x, v0.pointOne.x), 1)
                 hermiteCurve.translate(v0.pointOne.x,0)
                 self.vectorsPoints[self.selectedPointIndex] = self.selectedPoint.data()

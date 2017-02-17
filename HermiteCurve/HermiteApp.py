@@ -7,7 +7,7 @@ used  PyQt5 and PyOpenGL
 import sys
 import math
 
-from GeneralObject import GeneralObject 
+from GeneralObject import GeneralObject
 from operator import itemgetter,attrgetter
 from DrawingWindow import *
 from GeneralObject import *
@@ -26,9 +26,11 @@ class MainWindow(QWidget):
         mainLayout.addWidget(self.drawingWindow)
 
         buttonsLayout = QVBoxLayout()
+        undoButton = QPushButton("Delete Last")
+        undoButton.setMaximumWidth(100)
+        undoButton.clicked.connect(self.pressed)
+        buttonsLayout.addWidget(undoButton)
 
-        '''NOTE: compute button? '''
-        
         vbox = QHBoxLayout()
         vbox.addLayout(mainLayout)
         vbox.addLayout(buttonsLayout)
@@ -36,6 +38,14 @@ class MainWindow(QWidget):
         self.setLayout(vbox)
         self.resize(500, 600)
         self.setWindowTitle("Hermite Curve")
+
+    def pressed(self):
+        if len(self.drawingWindow.history) > 0 :
+            self.drawingWindow.history.pop()
+            for i in range (0,4):
+                self.drawingWindow.vectorsPoints.pop()
+                self.drawingWindow.points.pop()
+            self.drawingWindow.updateGL()
 
 
 if __name__ == '__main__':
