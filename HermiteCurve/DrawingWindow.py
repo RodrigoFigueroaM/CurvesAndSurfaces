@@ -91,7 +91,7 @@ class DrawingWindow(GLStandardDrawingWindow):
 
                 hermiteCurve = HermiteCurve()
 
-                hermiteCurve.compute(v0.pointOne, v0.slope() * v0dist/3, v1.pointOne, v1.slope() * v1dist / 3)
+                hermiteCurve.compute(v0.pointOne, v0.slope() * v0dist, v1.pointOne, v1.slope() * v1dist)
                 hermiteCurve.scale(distance(v1.pointOne.x, v0.pointOne.x), 1)
                 hermiteCurve.translate(v0.pointOne.x,0)
                 self.history.append(hermiteCurve)
