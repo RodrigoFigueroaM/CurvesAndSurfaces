@@ -124,7 +124,7 @@ class DrawingWindow(GLStandardDrawingWindow):
                         self.selectedPoint.rotateOn( mousedx, rotationPoint.x, rotationPoint.y )
                     else:
                         self.selectedPoint.rotateOn( -1 * mousedx, rotationPoint.x, rotationPoint.y )
-                 
+
                 # right/ mouse moving left
                 elif self.lastMousePosition.x() < event.x():
                     if rotationPoint.y >= self.selectedPoint.y :
@@ -141,20 +141,20 @@ class DrawingWindow(GLStandardDrawingWindow):
                     # left
                     if self.lastMousePosition.x() > event.x():
                         self.selectedPoint.translate(-1 * distanceX * mousedx, distanceY * mousedy, 0)
-                   
+
                     # right
                     if self.lastMousePosition.x() < event.x():
                         self.selectedPoint.translate(distanceX * mousedx, distanceY * mousedy, 0)
-                      
+
                     # up
                     if self.lastMousePosition.y() < event.y():
                         # hermiteCurve.scale(abs(v1.pointOne.x - v0.pointOne.x), abs(v1.pointOne.y - v0.pointOne.y) )
                         self.selectedPoint.translate(distanceX * mousedx,  -1 * distanceY * mousedy, 0)
-                     
+
                     if self.lastMousePosition.y() > event.y():
                         self.selectedPoint.translate(distanceX * mousedx, distanceY * mousedy, 0)
-                
-                hermiteCurve.compute(v0.pointOne, v0.slope() * v0dist, v1.pointOne, v1.slope() * v1dist)
+
+                hermiteCurve.compute(v0.pointOne, v0.slope(), v1.pointOne, v1.slope() * v1dist)
                 hermiteCurve.scale(distance(v1.pointOne.x, v0.pointOne.x), 1)
                 hermiteCurve.translate(v0.pointOne.x,0)
                 self.vectorsPoints[self.selectedPointIndex] = self.selectedPoint.data()
@@ -168,7 +168,7 @@ class DrawingWindow(GLStandardDrawingWindow):
         hermiteCurve = self.history[-1]
         v0 = self.vectors[-2]
         v1 = self.vectors[-1]
-       
+
         print ( "CURVE",hermiteCurve)
         print ( "Points",int(v0.pointOne.y) == int(v1.pointOne.y), int(v0.pointOne.y), int(v1.pointOne.y))
 
@@ -177,7 +177,7 @@ class DrawingWindow(GLStandardDrawingWindow):
         paintGL
         Updates the current object that is being drawn in screen.
         Draws whatever is on the history stack as a set of points
-        '''    
+        '''
         GL.glClear(GL.GL_COLOR_BUFFER_BIT| GL.GL_DEPTH_BUFFER_BIT)
         # Draw vectors
         GL.glColor3f(.50, .80, .81)
