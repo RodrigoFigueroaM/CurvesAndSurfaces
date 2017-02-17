@@ -32,6 +32,6 @@ class HermiteCurve(GeneralObject):
             pty = (2 * t3 - 3 * t2 + 1) * self.p0.y + (t3 - 2 * t2 + t) * self.m0 + ( -2 * t3 + 3 * t2) * self.p1.y + (t3 - t2) * self.m1
             point = Point(t, pty, 1)
             self.points.append( point.data() )
-            t += 0.01 
+            t += 0.001 
    
 

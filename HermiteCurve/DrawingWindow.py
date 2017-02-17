@@ -207,10 +207,10 @@ class DrawingWindow(GLStandardDrawingWindow):
 
         # Draw Curves
         GL.glColor3f(.85, .30, .90)
-        GL.glLineWidth(2.0)
-        GL.glBegin(GL.GL_LINE_STRIP)
+        GL.glPointSize(2.0)
+        GL.glBegin(GL.GL_POINTS)
         for element in self.history:
             for point in element.points:
-                GL.glVertex3fv(point)  #draws points according to the coordinates they belong to
+                GL.glVertex3fv(point)  #  #map points according to the coordinates they belong to
         GL.glEnd()
         GL.glFlush()
