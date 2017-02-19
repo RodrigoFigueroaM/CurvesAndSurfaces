@@ -1,11 +1,11 @@
 # CurvesAndSurfaces
-a set of tools to draw lines, circles, and curves by implementing various algorithms
+A set of tools to draw lines, circles, and curves by implementing various algorithms
 ## Libraries
 - PyOpenGL
 - virtualenv
 - PyQt5
 
-####How to execute program:
+####How to execute program (for for macOS) :
 1) clone or download zip for this directory:
 ```sh
 $ git clone https://github.com/RodrigoFigueroaM/CurvesAndSurfaces.git
