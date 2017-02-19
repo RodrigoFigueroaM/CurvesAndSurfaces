@@ -1,5 +1,6 @@
 # Ellipse Rotation On Center
 Application that display an animation of an ellipse rotating on its center
+(source: Hill, Kenneth J., Matrix-based Ellipse Geometry, Graphics Gems V, p. 72-77)
 
 ![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/EllipseRotationOnCenter/Kapture.gif)
 ## Libraries
