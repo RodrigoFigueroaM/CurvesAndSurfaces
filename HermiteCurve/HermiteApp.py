@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 '''
-A program that allows users to .
+A program that allows users to plot and interact with  Hermite curves.
 used  PyQt5 and PyOpenGL
 '''
 import sys
@@ -11,12 +11,11 @@ from GeneralObject import GeneralObject
 from operator import itemgetter,attrgetter
 from DrawingWindow import *
 from GeneralObject import *
-
 from PyQt5.QtWidgets import  QApplication, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QComboBox
 
 class MainWindow(QWidget):
     def __init__(self):
-        self.layoutItemsMaxSize=150
+        self.layoutItemsMaxSize = 150
 
         super(MainWindow, self).__init__()
 
@@ -28,7 +27,7 @@ class MainWindow(QWidget):
         buttonsLayout = QVBoxLayout()
         undoButton = QPushButton("Delete Last")
         undoButton.setMaximumWidth(100)
-        undoButton.clicked.connect(self.pressed)
+        undoButton.clicked.connect(self.undoButtonFuntion)
         buttonsLayout.addWidget(undoButton)
 
         vbox = QHBoxLayout()
@@ -39,7 +38,8 @@ class MainWindow(QWidget):
         self.resize(500, 600)
         self.setWindowTitle("Hermite Curve")
 
-    def pressed(self):
+    def undoButtonFuntion(self):
+        #when undo button is pressed it will delete the last plotted curve
         if len(self.drawingWindow.history) > 0 :
             self.drawingWindow.history.pop()
             for i in range (0,4):

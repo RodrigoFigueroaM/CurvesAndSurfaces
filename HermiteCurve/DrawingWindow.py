@@ -33,23 +33,21 @@ class DrawingWindow(GLStandardDrawingWindow):
     def __init__(self):
         super().__init__()
         self.setMouseTracking(False)
-        self.numberOfClicks = 0
+        self.numberOfClicks = 0 # used to keep track of the number of points for the HermiteCurve
         self.vectors = []
-        self.vectorsPoints = []
+        self.vectorsPoints = [] # used to plot vector on the
         self.points = []
-        self.update = 0.0
 
-        self.busyPixel = False # flag for taken space
-        self.selectedPoint = object
-        self.rotate = .1
-        self.selectedPointIndex = 0
+        self.busyPixel = False # flag to detect when touching a plotted point in screen
+        self.selectedPoint = object # initiaize the point that will be used for the user to redraw curve
+        self.selectedPointIndex = 0 # index of the point that the user wants to move
 
     def mousePressEvent(self, event):
-        # check if pixel busy
-        bounds = 5
-        i = 0
+        #  user want to move points for the curve around
+        bounds = 5 # additional area for the mouse events to check if pixel busy
+        i = 0 #used to check rhe index of the plotted point
         for point in self.points:
-            #mouse bounds. Raise flag because space is taken
+            #mouse bound. Raise flag because space is taken
             if ( point.x > event.x() - bounds
                 and point.x <  event.x() + bounds
                 and  point.y <  self.height - event.y() +  bounds
@@ -63,6 +61,7 @@ class DrawingWindow(GLStandardDrawingWindow):
                 break
             i += 1
 
+        #User is plotting points
         #Click on mouse and set a point
         if self.busyPixel == False:
             self.numberOfClicks = self.numberOfClicks + 1
@@ -70,36 +69,32 @@ class DrawingWindow(GLStandardDrawingWindow):
                 self.points.append ( Point(event.x(),self.height - event.y(), 1))
 
             else:
-                a = self.points[-1]
+                a = self.points[-1] #Get previous plotted point
                 b = Point(event.x(),self.height - event.y(), 1)
-                m0 = Vector (a,b)
-
+                m0 = Vector (a,b) # create a vector with the plotted points
                 self.points.append(b)
 
                 self.vectors.append(m0)
                 self.vectorsPoints.append( (m0.pointOne.data()) )
                 self.vectorsPoints.append( (m0.pointTwo.data()) )
 
-            if self.numberOfClicks % 4 == 0:
+            if self.numberOfClicks % 4 == 0: #plot other vector ans respecting Hermitecurve
                 v0 = self.vectors[-2]
                 v1 = self.vectors[-1]
                 v0dist = distance(v0.pointTwo.y, v0.pointOne.y)
                 v1dist = distance(v1.pointTwo.y, v1.pointOne.y)
 
-                if v0.pointOne.x > v1.pointOne.x:
-                    v0 , v1 = v1 , v0
-
                 hermiteCurve = HermiteCurve()
 
                 hermiteCurve.compute(v0.pointOne, v0.slope() * v0dist, v1.pointOne, v1.slope() * v1dist)
-                hermiteCurve.scale(distance(v1.pointOne.x, v0.pointOne.x), 1)
-                hermiteCurve.translate(v0.pointOne.x,0)
+                hermiteCurve.scale(distance(v1.pointOne.x, v0.pointOne.x), 1) #scale curve on x axis because it is potted from 0<t<1
+                hermiteCurve.translate(v0.pointOne.x,0) #move to desired location because it is potted from 0<t<1
                 self.history.append(hermiteCurve)
 
     def mouseMoveEvent(self, event):
         if self.busyPixel == True:
-            mousedx = .01
-            mousedy = .01
+            mousedx = .01 #rate of change for mouse movement on x direction
+            mousedy = .01 #rate of change for mouse movement on x direction
 
             if len(self.history) > 0 :
                 v0 = self.vectors[-2]
@@ -108,6 +103,7 @@ class DrawingWindow(GLStandardDrawingWindow):
                 if v0.pointOne.x > v1.pointOne.x:
                     v0 , v1 = v1 , v0
 
+                #check if user wants to rotate points(vectors)
                 rotationPoint = v0.pointOne
                 hermiteCurve = self.history[-1]
                 v0dist = distance(v0.pointTwo.y, v0.pointOne.y)
@@ -145,9 +141,8 @@ class DrawingWindow(GLStandardDrawingWindow):
                     if rotationPoint.x > self.selectedPoint.x and rotationPoint.y > self.selectedPoint.y:
                         revertZero = -1
 
+                #check if user wants to move up/down/left/right a point point
                 if self.selectedPoint == v0.pointOne or self.selectedPoint == v1.pointOne:
-
-
                     # left
                     if self.lastMousePosition.x() > event.x():
                         self.selectedPoint.translate(-1 * distanceX * mousedx, distanceY * mousedy, 0)
@@ -158,7 +153,6 @@ class DrawingWindow(GLStandardDrawingWindow):
 
                     # up
                     if self.lastMousePosition.y() < event.y():
-                        # hermiteCurve.scale(abs(v1.pointOne.x - v0.pointOne.x), abs(v1.pointOne.y - v0.pointOne.y) )
                         self.selectedPoint.translate(distanceX * mousedx,  -1 * distanceY * mousedy, 0)
 
                     if self.lastMousePosition.y() > event.y():
@@ -173,14 +167,6 @@ class DrawingWindow(GLStandardDrawingWindow):
     def mouseReleaseEvent(self, event):
         self.busyPixel = False
         self.updateGL()
-
-    def keyPressEvent(self, event):
-        hermiteCurve = self.history[-1]
-        v0 = self.vectors[-2]
-        v1 = self.vectors[-1]
-
-        print ( "CURVE",hermiteCurve)
-        print ( "Points",int(v0.pointOne.y) == int(v1.pointOne.y), int(v0.pointOne.y), int(v1.pointOne.y))
 
     def paintGL(self):
         '''
@@ -203,7 +189,6 @@ class DrawingWindow(GLStandardDrawingWindow):
         for point in self.vectorsPoints:
             GL.glVertex3fv(point)
         GL.glEnd()
-
 
         # Draw Curves
         GL.glColor3f(.85, .30, .90)
