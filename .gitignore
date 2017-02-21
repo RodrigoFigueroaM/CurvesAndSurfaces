@@ -4,3 +4,4 @@ tests/
 */*.pyc
 */lotgFile.txt
 */logfile.txt
+CurvesEnv/lib/*
