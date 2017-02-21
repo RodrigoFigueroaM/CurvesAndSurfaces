@@ -1,11 +1,10 @@
-# Ellipse Rotation On Center
-Application that display an animation of an ellipse rotating on its center
-(source: Hill, Kenneth J., Matrix-based Ellipse Geometry, Graphics Gems V, p. 72-77)
+# Hermite Curve
+Application that allows plotting and interaction with Hermite Curve
+(source: https://en.wikipedia.org/wiki/Cubic_Hermite_spline)
 
-![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/EllipseRotationOnCenter/Kapture.gif)
+![alt text]()
 ## Libraries
 - PyOpenGL
-- virtualenv
 - PyQt5
 
 ####How to execute program:
@@ -15,9 +14,9 @@ $ source CurvesEnv/bin/activate
 ```
 2) cd to folder
 ```sh
-$ cd EllipseRotationOnCenter
+$ cd HermiteCurve
 ```
 3) cd into any of the directories and run any of the programs for example
 ```sh
-$ python EllipseRotationOnCenter.py
+$ python HermiteApp.py
 ```
