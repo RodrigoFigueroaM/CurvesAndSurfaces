@@ -1,6 +1,7 @@
 # Catmull-Rom Spline
 Application that allows plotting and interaction with  Catmull–Rom spline
-(source: https://en.wikipedia.org/wiki/Cubic_Hermite_spline, and http://www.mvps.org/directx/articles/catmull/)
+
+(source: https://en.wikipedia.org/wiki/Cubic_Hermite_spline and http://www.mvps.org/directx/articles/catmull/)
 
 ![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/CatmullRom/Kapture.gif)
 ## Libraries
