@@ -31,9 +31,6 @@ class DrawingWindow(GLStandardDrawingWindow):
         self.userDefinedPoints = []
         self.animationObjects = []
         self.setMouseTracking(True)
-        self.update = 0.0
-        self.selectedPoint = object
-        self.selectedPointIndex = 0
         self.history.append(CatmullRom())
         self.editFlag = False
 
@@ -95,7 +92,6 @@ class DrawingWindow(GLStandardDrawingWindow):
             for point in element.points:
                 GL.glVertex3fv(point.data())  #  #map points according to the coordinates they belong to
         GL.glEnd()
-
 
     #Draw objects for animation
     def drawAnimationObjects(self):

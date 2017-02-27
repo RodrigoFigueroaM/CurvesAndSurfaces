@@ -17,7 +17,8 @@ import sys
 import math
 
 from PyQt5.QtOpenGL import QGLWidget
-from PyQt5.QtCore import QSize
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtGui import  QCursor
 import OpenGL.GL as GL
 import OpenGL.GLU as GLU
 
@@ -27,7 +28,7 @@ class GLStandardDrawingWindow(QGLWidget):
         self.width, self.height = 600, 400
         self.resize(self.width, self.height)
         self.move(100, 100)
-
+        self.setCursor(QCursor(Qt.OpenHandCursor))
 
     def minimumSizeHint(self):
         return QSize(self.width, self.height)

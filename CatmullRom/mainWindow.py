@@ -10,7 +10,7 @@ class MainWindow(Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(window)
         self.timer = QTimer(self.openGLWidget)
-        self.delay = 75
+        self.delay = 100
         self.undoButton.clicked.connect(self.pop)
         self.animateButton.clicked.connect(self.animate)
         self.timer.timeout.connect(self.animateCallback)
@@ -48,6 +48,7 @@ class MainWindow(Ui_MainWindow):
 
     def editState(self,state):
         if state == Qt.Checked:
+            self.openGLWidget.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
             self.openGLWidget.setEditFlag(True)
         else:
             self.openGLWidget.setEditFlag(False)
