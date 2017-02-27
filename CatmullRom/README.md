@@ -15,9 +15,9 @@ $ source CurvesEnv/bin/activate
 ```
 2) cd to folder
 ```sh
-$ cd HermiteCurve
+$ cd CatmullRom
 ```
 3) cd into any of the directories and run any of the programs for example
 ```sh
-$ python HermiteApp.py
+$ python CatmullRomApp.py
 ```
