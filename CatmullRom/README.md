@@ -3,7 +3,7 @@ Application that allows plotting and interaction with  Catmull–Rom spline
 
 (source: https://en.wikipedia.org/wiki/Cubic_Hermite_spline and http://www.mvps.org/directx/articles/catmull/)
 
-![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/CatmullRom/Kapture.gif)
+![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/CatmullRom/screenshots/Kapture2.gif)
 ## Libraries
 - PyOpenGL
 - PyQt5
