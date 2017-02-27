@@ -10,10 +10,11 @@ class MainWindow(Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(window)
         self.timer = QTimer(self.openGLWidget)
-        self.delay = 150
+        self.delay = 75
         self.undoButton.clicked.connect(self.pop)
         self.animateButton.clicked.connect(self.animate)
         self.timer.timeout.connect(self.animateCallback)
+        self.editCheckBox.stateChanged.connect(self.editState)
         self.index = 0
 
     def pop(self):
@@ -44,6 +45,13 @@ class MainWindow(Ui_MainWindow):
                 else:
                     ellipse.translate(catmull.points[self.index+1].x - catmull.points[self.index].x ,catmull.points[self.index+1].y - catmull.points[self.index].y )
                     self.index += 1
+
+    def editState(self,state):
+        if state == Qt.Checked:
+            self.openGLWidget.setEditFlag(True)
+        else:
+            self.openGLWidget.setEditFlag(False)
+
 
 
 '''controller for buttons'''

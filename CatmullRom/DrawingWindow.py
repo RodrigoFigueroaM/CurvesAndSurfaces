@@ -30,23 +30,37 @@ class DrawingWindow(GLStandardDrawingWindow):
         self.history=[]
         self.userDefinedPoints = []
         self.animationObjects = []
-        self.numberOfClicks = 0
-        self.setMouseTracking(False)
+        self.setMouseTracking(True)
         self.update = 0.0
-        self.busyPixel = False # flag for taken space
         self.selectedPoint = object
         self.selectedPointIndex = 0
         self.history.append(CatmullRom())
+        self.editFlag = False
 
     def mousePressEvent(self, event):
-        # check if pixel busy
-        a = Point( event.x(),self.height - event.y(), 1)
-        self.userDefinedPoints.append(a)
+        if self.editFlag == False:
+            a = Point( event.x(),self.height - event.y(), 1)
+            self.userDefinedPoints.append(a)
 
+    def mouseMoveEvent(self, event):
+        if self.editFlag == True:
+            if event.buttons() == QtCore.Qt.LeftButton:
+                lastMousePosition = event.pos()
+                bounds = 5
+                for point in self.userDefinedPoints:
+                    #mouse bound. Raise flag because space is taken
+                    if ( point.x > event.x() - bounds
+                        and point.x <  event.x() + bounds
+                        and  point.y <  self.height - event.y() +  bounds
+                        and  point.y > self.height - event.y()  - bounds ):
+                        point.translate(lastMousePosition.x() - point.x, self.height - lastMousePosition.y() - point.y,0)
+                        self.updateGL()
 
     def mouseReleaseEvent(self, event):
         self.updateGL()
 
+    def setEditFlag(self, state):
+        self.editFlag = state
 
     def paintGL(self):
         '''
