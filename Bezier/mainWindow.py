@@ -39,3 +39,4 @@ class MainWindow(Ui_MainWindow):
             self.openGLWidget.setEditFlag(True)
         else:
             self.openGLWidget.setEditFlag(False)
+        self.openGLWidget.updateGL()

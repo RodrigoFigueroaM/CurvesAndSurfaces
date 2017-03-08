@@ -1,8 +1,8 @@
-# Hermite Curve
-Application that allows plotting and interaction with Hermite Curve
-(source: https://en.wikipedia.org/wiki/Cubic_Hermite_spline)
+# Catmull-Rom Spline
+Application that allows plotting and interaction with  Catmull–Rom spline
+(source: https://en.wikipedia.org/wiki/Cubic_Hermite_spline, and http://www.mvps.org/directx/articles/catmull/)
 
-![alt text]()
+![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/CatmullRom/Kapture.gif)
 ## Libraries
 - PyOpenGL
 - PyQt5
@@ -10,13 +10,13 @@ Application that allows plotting and interaction with Hermite Curve
 ####How to execute program:
 1) run virtal environment to run all necessary applications.
 ```sh
-$ source CurvesEnv/bin/activate 
+$ source CurvesEnv/bin/activate
 ```
 2) cd to folder
 ```sh
-$ cd HermiteCurve
+$ cd CatmullRom
 ```
 3) cd into any of the directories and run any of the programs for example
 ```sh
-$ python HermiteApp.py
+$ python CatmullRomApp.py
 ```

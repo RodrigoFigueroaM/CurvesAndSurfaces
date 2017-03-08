@@ -33,6 +33,7 @@ class QuadraticBezier(GeneralObject):
             self.points.append(point)
             t += 0.01
 
+
 class CubicBezier(GeneralObject):
     def __init__(self):
         super(CubicBezier,self).__init__()
