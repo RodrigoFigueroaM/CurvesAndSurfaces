@@ -15,6 +15,7 @@ class QuadraticBezier(GeneralObject):
     	return 'p0 = %s, p1= %s, p2= %s' %(self.p0 ,self.p1, self.p2)
 
     def compute(self, p0, p1 , p2):
+        '''from bernstein definition on The Morgan Kaufmann Series in Computer Graphics Curves and Surfaces ch5 '''
         self.controlPoints=[]
         self.points = []
         self.p0 = p0
@@ -47,8 +48,7 @@ class CubicBezier(GeneralObject):
         return 'p0 = %s, p1= %s , p2= %s, p3= %s' %(self.p0 ,self.p1, self.p2 , self.p3)
 
     def compute(self, p0, p1, p2, p3):
-        '''B(t) = (1 - t)* Bp(0 ... n-1) + t * Bp(1 ... n)'''
-        # HermiteCurve function where: mn = (pn+1 - pn-1)/(tn+1 - tn-1))
+        '''from bernstein definition on The Morgan Kaufmann Series in Computer Graphics Curves and Surfaces ch5 '''
         self.controlPoints=[]
         self.points = []
         self.p0 = p0
