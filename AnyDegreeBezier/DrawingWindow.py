@@ -75,7 +75,7 @@ class DrawingWindow(GLStandardDrawingWindow):
             self.history.append(spline)
             self.curvePoints = []
             self.updateGL()
-
+            
     def paintGL(self):
         '''
         paintGL
@@ -93,9 +93,13 @@ class DrawingWindow(GLStandardDrawingWindow):
         GL.glEnableClientState(GL.GL_VERTEX_ARRAY)
 
         self.drawPoints()
-        self.drawCurve()
+
+        for spline in self.history:
+            self.drawSpline(spline)
+
         if self.editFlag == True:
             self.drawControlPolygon()
+
         GL.glDisableClientState(GL.GL_VERTEX_ARRAY)
 
     # Draw user points
@@ -113,13 +117,21 @@ class DrawingWindow(GLStandardDrawingWindow):
         # GL.glDrawElements(GL.GL_LINE_STRIP, len(self.curvePointsBuffer), GL.GL_UNSIGNED_INT ,self.curvePointsBuffer)
 
     # Draw Curves
-    def drawCurve(self):
-        if len(self.history) > 0:
-            GL.glColor3f(.85, .30, .90)
-            GL.glPointSize(2.0)
-            GL.glLineWidth(2.0)
-            GL.glVertexPointer(3, GL.GL_FLOAT, 0, self.historyBuffer)
-            GL.glDrawArrays(GL.GL_LINE_STRIP, 0, len(self.historyBuffer))
+    def drawSpline(self, spline):
+        # if len(self.history) > 0:
+        #     GL.glColor3f(.85, .30, .90)
+        #     GL.glPointSize(2.0)
+        #     GL.glLineWidth(2.0)
+        #     GL.glVertexPointer(3, GL.GL_FLOAT, 0, self.historyBuffer)
+        #     GL.glDrawArrays(GL.GL_LINE_STRIP, 0, len(self.historyBuffer))
+        print("in")
+        GL.glColor3f(.85, .30, .90)
+        GL.glPointSize(2.0)
+        GL.glLineWidth(2.0)
+        GL.glBegin(GL.GL_LINE_STRIP)
+        for point in spline.points:
+            GL.glVertex3fv(point.data())  #  #map points according to the coordinates they belong to
+        GL.glEnd()
 
 def listToVertex(inList):
     outList=[]
