@@ -33,7 +33,7 @@ class QuadraticBezier(GeneralObject):
             pty = oneMinusT * oneMinusT * p0.y + 2 * oneMinusT * t * p1.y + t2 * p2.y
             point = Point(ptx, pty, 1)
             self.points.append(point)
-            t += 0.01
+            t += 0.1
 
 
 class CubicBezier(GeneralObject):
@@ -70,7 +70,7 @@ class CubicBezier(GeneralObject):
             pty = oneMinusT * oneMinusT * oneMinusT * p0.y + 3 * oneMinusT * oneMinusT * t * p1.y + 3 * oneMinusT * t2 * p2.y + t3 * p3.y
             point = Point(ptx, pty, 1)
             self.points.append(point)
-            t += 0.01
+            t += 0.1
 
 class Bezier(GeneralObject):
     def __init__(self):
@@ -100,4 +100,4 @@ class Bezier(GeneralObject):
 
             point = Point(ptx, pty, 1)
             self.points.append(point)
-            t += 0.01
+            t += 0.1
