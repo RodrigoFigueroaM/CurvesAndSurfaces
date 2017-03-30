@@ -110,6 +110,13 @@ def bresenhamAlg(initialX,initialY,terminalX,terminalY):
             E = E + 2 * dx
             initialY = initialY + ystep
 
+def parametricLine(initialX,initialY,terminalX,terminalY):
+	x = initialX
+	while x < terminalX:
+		t = ( x - initialX)/(terminalX - initialX)
+		y = initialY + t * (terminalY - initialY) 
+		print(x , t, y)
+		linePoints.append((x,math.floor(y)))
 
 '''----------------------------------------------------------------------------
 mouse:

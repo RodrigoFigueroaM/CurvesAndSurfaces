@@ -1,4 +1,4 @@
-from windowLayout import Ui_MainWindow
+from windowLayoutAnimation import Ui_MainWindow
 from PyQt5.QtCore import Qt , QTimer, pyqtSlot
 from DrawingWindow import *
 from Ellipse import Ellipse
