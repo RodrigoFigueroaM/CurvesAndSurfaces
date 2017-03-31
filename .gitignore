@@ -5,4 +5,5 @@ tests/
 */*.pyc
 */lotgFile.txt
 */logfile.txt
-CurvesEnv/lib/*
+CurvesEnv/lib/
+BresenhamHead

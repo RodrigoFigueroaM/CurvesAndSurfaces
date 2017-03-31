@@ -22,7 +22,8 @@ class Bspline(GeneralObject):
         self.controlPoints = controlPoints
 
         degree = len(self.controlPoints) - 1
-        p = degree  #degree
+        p = degree
+        
         knots = self.__computeKnotVector(degree = degree)
 
         for i in range(degree, degree + 1):
@@ -59,7 +60,7 @@ class Bspline(GeneralObject):
             for i in range(len(knots),len(self.controlPoints) + 1):
                 knots.append(i - degree)
 
-            for i in range(len(self.controlPoints) + 2,len(self.controlPoints) + len(knots) + 1):
+            for i in range(len(self.controlPoints) + 2,len(self.controlPoints) + len(knots)):
                 knots.append(len(self.controlPoints) - degree + 1)
             return knots
         # uniform sequence
