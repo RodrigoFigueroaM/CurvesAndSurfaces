@@ -5,6 +5,7 @@ for this bspline I have implemented my own De Boor's algorithm with dictionaries
 ## Sources:
 * B-spline: https://en.wikipedia.org/wiki/B-spline
 * Algorithm: https://en.wikipedia.org/wiki/De_Boor%27s_algorithm
+* B-spline knot vector: An Introduction to NURBS With Histotical Perspective, Author David F. Rogers
 
 # Code:
     The for the implemetation of spline can be found  under
