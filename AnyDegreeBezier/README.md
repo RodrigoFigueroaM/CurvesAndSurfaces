@@ -3,10 +3,8 @@ Application that allows plotting, designing, and interaction with a bezier curve
 
 (source: Curves and Surfaces for CAGD, 5th Edition, Author: Gerald Farin)
 
-![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/Bezier/screenshots/Kapture.gif)
-# Examples
-![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/Bezier/screenshots/teapot.png)
-![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/Bezier/screenshots/flower.png)
+![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/AnyDegreeBezier/screenshots/Kapture.gif)
+
 ## Libraries
 - PyOpenGL
 - PyQt5
