@@ -8,7 +8,7 @@ Application that display an animation of an ellipse rotating on its center
 - virtualenv
 - PyQt5
 
-##How to execute program:
+### How to execute program:
 1) run virtal environment to run all necessary applications.
 ```sh
 $ source CurvesEnv/bin/activate 
