@@ -1,9 +1,10 @@
-# Bezier Curves
-Application that allows plotting, designing, and interaction with a bezier curve of any degree
+# B-Spline
+Application that allows plotting and interaction with B-Splines of any degree using Recursive De Boor's algorithm
+## Sources:
+  * B-spline: https://en.wikipedia.org/wiki/B-spline
+  * Algorithm: https://en.wikipedia.org/wiki/De_Boor%27s_algorithm
 
-(source: Curves and Surfaces for CAGD, 5th Edition, Author: Gerald Farin)
-
-![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/AnyDegreeBezier/screenshots/Kapture.gif)
+![alt text](https://github.com/RodrigoFigueroaM/CurvesAndSurfaces/blob/master/BSpline/screenshots/Kapture.gif)
 
 ## Libraries
 - PyOpenGL
@@ -16,9 +17,9 @@ $ source CurvesEnv/bin/activate
 ```
 2) cd to folder
 ```sh
-$ cd AnyDegreeBezier
+$ cd BSpline
 ```
 3) cd into any of the directories and run any of the programs for example
 ```sh
-$ python AnyDegreeBezierApp.py
+$ python BSplineApp.py
 ```
