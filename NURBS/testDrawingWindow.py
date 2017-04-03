@@ -13,9 +13,9 @@ attributes
 '''
 
 import math
-import MyPackages 
+import MyPackages
 from MyPackages.geometry.Point import Point
-from MyPackages.curves.Bspline import Bspline
+from MyPackages.curves.NURBS import NURBS
 from PyQt5 import QtCore, QtGui
 from PyQt5.Qt import Qt
 from PyQt5.QtWidgets import  QWidget
@@ -36,13 +36,12 @@ class DrawingWindow(GLStandardDrawingWindow):
 
         self.userDefinedPointsBuffer = []
         self.historyBuffer = []
-  
+
     def mousePressEvent(self, event):
         if self.editFlag == False:
             a = Point( event.x(),self.height - event.y(), 1)
             self.userDefinedPoints.append(a)
             self.curvePoints.append(a)
-    
 
     def mouseMoveEvent(self, event):
         if self.editFlag == True:
@@ -55,8 +54,8 @@ class DrawingWindow(GLStandardDrawingWindow):
                             and point.x <  event.x() + bounds
                             and  point.y <  self.height - event.y() +  bounds
                             and  point.y > self.height - event.y()  - bounds ):
+                            curve.compute(curve.controlPoints)
                             point.translate(lastMousePosition.x() - point.x, self.height - lastMousePosition.y() - point.y,0)
-                            self.updateSpline(curve)
                             self.updateGL()
 
 
@@ -69,20 +68,13 @@ class DrawingWindow(GLStandardDrawingWindow):
     def setEditFlag(self, state):
         self.editFlag = state
 
-    def computeSpline(self, degree = 0, knotVectorType = None ):
+    def computeSpline(self):
         if len(self.curvePoints) > 1:
-            spline = Bspline( knotVectorType )
-            spline.compute( controlPoints = self.curvePoints,  degree = degree, knotVectorType = knotVectorType )
+            spline = NURBS()
+            spline.compute( self.curvePoints )
             self.history.append(spline)
             self.curvePoints = []
             self.updateGL()
-
-    def updateSpline(self, spline = None):
-        if spline:
-            spline.compute(controlPoints = spline.controlPoints,  degree = spline.degree, knotVectorType = spline.knotVectorType )
-            self.updateGL()
-    
-    
 
     def paintGL(self):
         '''

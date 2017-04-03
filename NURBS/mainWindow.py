@@ -9,13 +9,13 @@ class MainWindow(Ui_MainWindow):
     def __init__(self,window):
         Ui_MainWindow.__init__(self)
         self.setupUi(window)
-        window.setWindowTitle("BSpline")
+        window.setWindowTitle("NURBS")
         self.undoButton.clicked.connect(self.pop)
         self.editCheckBox.stateChanged.connect(self.editState)
         self.ClearButton.clicked.connect(self.clear)
         self.computeButton.clicked.connect(self.computeSpline)
-        self.comboBox.addItem("uniform")
-        self.comboBox.addItem("open uniform")
+        self.comboBox.addItem("periodic")
+        self.comboBox.addItem("open")
         self.comboBox.addItem("bezier")
         self.popClicks = 0
 
@@ -46,4 +46,4 @@ class MainWindow(Ui_MainWindow):
         self.openGLWidget.updateGL()
 
     def computeSpline(self):
-        self.openGLWidget.computeSpline(degree = self.spinBox.value(), knotVectorType = self.comboBox.currentText())
+            self.openGLWidget.computeSpline(degree = self.spinBox.value(), knotVectorType = self.comboBox.currentText())

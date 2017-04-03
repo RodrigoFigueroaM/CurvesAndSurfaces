@@ -15,7 +15,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(600, 600)
         MainWindow.setMinimumSize(QtCore.QSize(500, 250))
-        MainWindow.setStyleSheet("background-color:rgb(8, 8, 8); color:rgb(130, 130, 130)")
+        MainWindow.setStyleSheet("background-color:rgb(68, 68, 68); color:rgb(130, 130, 130)")
         self.centralWidget = QtWidgets.QWidget(MainWindow)
         self.centralWidget.setMinimumSize(QtCore.QSize(200, 100))
         palette = QtGui.QPalette()
@@ -208,7 +208,7 @@ class Ui_MainWindow(object):
 "\n"
 "QPushButton:hover\n"
 "{\n"
-"   background-color:rgb(75, 75, 75);\n"
+"   background-color:rgb(90, 90, 90);\n"
 "}")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/Undo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -226,7 +226,7 @@ class Ui_MainWindow(object):
 "\n"
 "QPushButton:hover\n"
 "{\n"
-"   background-color:rgb(75, 75, 75);\n"
+"   background-color:rgb(90, 90, 90);\n"
 "}")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(":/eraseWhite.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)

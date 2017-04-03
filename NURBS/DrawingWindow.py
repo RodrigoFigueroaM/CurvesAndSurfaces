@@ -13,9 +13,9 @@ attributes
 '''
 
 import math
-import MyPackages 
+import MyPackages
 from MyPackages.geometry.Point import Point
-from MyPackages.curves.Bspline import Bspline
+from MyPackages.curves.NURBSTest import NURBS
 from PyQt5 import QtCore, QtGui
 from PyQt5.Qt import Qt
 from PyQt5.QtWidgets import  QWidget
@@ -36,13 +36,46 @@ class DrawingWindow(GLStandardDrawingWindow):
 
         self.userDefinedPointsBuffer = []
         self.historyBuffer = []
-  
+# #m-shape
+#         self.curvePoints = [ Point(0, 0, 1),
+#                            Point(100, 200, 1),
+#                            Point(250, 0, 1),
+#                            Point(400, 200,1),
+#                            Point(500, 0, 1)]
+
+# circle cuadratic bsplines INSIDE TRIANNGLE
+        # self.curvePoints = [ Point(150, 100, 1),
+                             # Point(200, 100, 1),
+                             # Point(175, 150, 1),
+                             # Point(150, 200,1),
+                             # Point(125, 150, 1),
+                             # Point(100, 100, 1),
+                             # Point(150, 100, 1)]
+
+# # circle cuadratic bsplines INSIDE SQUARE
+#         self.curvePoints = [Point(200, 100, 1),
+#                            Point(400, 100, 1),
+#                            Point(300, 200, 1),
+#                            Point(300, 300,1),
+#                            Point(200, 400, 1),
+#                            Point(100, 300, 1),
+#                            Point(100, 200, 1),
+#                            Point(0, 100, 1),
+#                            Point(200, 100, 1)]
+
+#         self.userDefinedPoints = self.curvePoints
+#         spline = NURBS()
+#         spline.compute( controlPoints = self.curvePoints, degree = 2,  knotVector = [0, 0, 0, 1, 1, 2, 2, 3, 3, 4 ,4 ,4], homogenousCoordinates = [1, 0.707, 1, 0.707, 1, 0.707, 1, 0.707, 1])
+#         self.history.append(spline)
+#         self.curvePoints = []
+#         self.updateGL()
+
+
     def mousePressEvent(self, event):
         if self.editFlag == False:
             a = Point( event.x(),self.height - event.y(), 1)
             self.userDefinedPoints.append(a)
             self.curvePoints.append(a)
-    
 
     def mouseMoveEvent(self, event):
         if self.editFlag == True:
@@ -71,18 +104,18 @@ class DrawingWindow(GLStandardDrawingWindow):
 
     def computeSpline(self, degree = 0, knotVectorType = None ):
         if len(self.curvePoints) > 1:
-            spline = Bspline( knotVectorType )
-            spline.compute( controlPoints = self.curvePoints,  degree = degree, knotVectorType = knotVectorType )
+            spline = NURBS( knotVectorType )
+            spline.compute( controlPoints = self.curvePoints,  degree = degree, knotVectorType = knotVectorType , homogenousCoordinates = [1 for x in range(0,len( self.curvePoints))])
             self.history.append(spline)
             self.curvePoints = []
             self.updateGL()
-
+   
     def updateSpline(self, spline = None):
         if spline:
-            spline.compute(controlPoints = spline.controlPoints,  degree = spline.degree, knotVectorType = spline.knotVectorType )
+            print(spline.degree)
+            # spline.compute( controlPoints = spline.controlPoints, degree = spline.degree, knotVectorType = spline.knotVectorType, homogenousCoordinates =  spline.homogenousCoordinates)
+            spline.compute(controlPoints = spline.controlPoints,  degree = spline.degree,  knotVector =  spline.knots, homogenousCoordinates = spline.homogenousCoordinates)
             self.updateGL()
-    
-    
 
     def paintGL(self):
         '''

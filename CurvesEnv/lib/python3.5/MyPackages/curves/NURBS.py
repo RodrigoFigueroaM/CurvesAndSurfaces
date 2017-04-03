@@ -2,11 +2,7 @@
 
 from .GeneralObject import *
 import math
-'''
-    NOTE:
-    # let user choose the degree of curves
-    
-'''
+
 class NURBS(GeneralObject):
     def __init__(self,knotVectorType = None):
         super(NURBS,self).__init__()
@@ -15,137 +11,157 @@ class NURBS(GeneralObject):
         self.knots =[] #determined by number of control points + degree + 1
         self.homogenousCoordinates = []
         self.knotVectorType = knotVectorType
-        if not knotVectorType :
-            self.knotVectorType = "periodic uniform"
-        else:
-            self.knotVectorType = knotVectorType.lower()
     
 
     def __str__(self):
         return 'p = %s' %(self.points)
+    
 
-    def compute(self, controlPoints):
-        self.controlPoints = []
+    def setHomogenousCoordinates(self, homogenousCoordinates = None, controlPoints = None):
+        if not homogenousCoordinates:
+            self.homogenousCoordinates = [1 for i in range(0,len(controlPoints)) ] # attached to each control point
+        else:
+            self.homogenousCoordinates = homogenousCoordinates
+
+
+    def compute(self, controlPoints = None, degree = 0, knotVectorType = None, knotVector = None, homogenousCoordinates = None ):    
         self.points = []
-        self.controlPoints = controlPoints
-        self.degree = 4
-        p = self.degree
+        self.controlPoints = controlPoints[:]
+        self.degree = degree
+        # p = self.degree 
         
-#        pi = math.pi
+        if self.degree == 0 or self.degree  >= len(self.controlPoints):
+            self.degree = len(self.controlPoints) - 1
+        
+        if knotVector:
+            self.knots = knotVector
+        else:
+            if not knotVectorType :
+                self.knotVectorType = "uniform"
+            else:
+                self.knotVectorType = knotVectorType.lower()
+            self.knots = self.__computeKnotVector( degree = self.degree , knotVectorType = self.knotVectorType, controlPoints = self.controlPoints)
+                 
+        self.setHomogenousCoordinates(homogenousCoordinates = homogenousCoordinates, controlPoints = self.controlPoints)
 
-#        self.knots = [0,0,0,pi/2, pi/2,pi,pi,3*pi/2,3*pi/2,2*pi, 2*pi, 2*pi]
-        self.knots = [0,0,0,0,1,2,2,2,2]
-#        self.knots = [0,0,0,1,2,3,3,3]#self.__computeKnotVector( degree = self.degree , knotVectorType = self.knotVectorType)
-#        self.knots = self.__computeKnotVector( degree = self.degree , knotVectorType = "open uniform")
-
-
-        self.homogenousCoordinates = [1,1,1,1,1] # attached to each control point
-#        sq = math.sqrt(2)/2
-#        self.homogenousCoordinates = [1,sq,1,sq,1,sq,1,sq,1]
-
-        #save this left part
-#        for i in range(self.degree, self.degree + 1):
-#            u = self.knots[i-1]
-#            print(i,u)
-#            stopU = u + 1
-#            while u <= stopU:
-#                x = self.__coxDeBoor(self.degree,self.controlPoints,self.knots,u,i,p)
-#                y = self.__coxDeBoorY(self.degree,self.controlPoints,self.knots,u,i,p)
-#                self.points.append(x/y)
-#                u += 0.01
-# i = 3 u = 0.... 0.99
-
-
-        u = self.knots[self.degree ]
-        stopU = self.knots[len(self.knots) - self.degree ]
+        
+        u = self.knots[ self.degree  ]
+        stopU = self.knots[len(self.knots) - self.degree]
         while u <= stopU:
-            i = checkU(u, self.knots)
-            x = self.__coxDeBoor(self.degree,self.controlPoints,self.knots,u,i,p)
-            y = self.__coxDeBoorY(self.degree,self.controlPoints,self.knots,u,i,p)
+            i = checkU(u = u, knots = self.knots)
+            # x = self.__coxDeBoor(degree = self.degree,controlPoints = self.controlPoints,knots = self.knots, u = u,i = i,p = p, homogenousCoordinates =  self.homogenousCoordinates)
+            # y = self.__coxDeBoorHomogenousCoordinates(degree = self.degree,controlPoints = self.controlPoints,knots = self.knots, u = u,i = i,p = p, homogenousCoordinates = self.homogenousCoordinates)
+            x = self.__coxDeBoorWithDictionary(degree = self.degree, controlPoints = self.controlPoints, knots = self.knots, u = u, i = i, homogenousCoordinates = self.homogenousCoordinates)
+            y = self.__coxDeBoorHomogenousCoordinatesWithDictionary(degree = self.degree, controlPoints = self.controlPoints, knots = self.knots, u = u, i = i, homogenousCoordinates = self.homogenousCoordinates)
             self.points.append(x/y)
-            u += 0.01
+            u += 0.1
 
-#        p = self.degree
-#        for i in range(self.degree  , self.degree + 1):
-#            print(i)
-#            u = self.knots[i]
-#            stopU = u+1
-#            while u < stopU:
-#                x = self.__coxDeBoor(self.degree,self.controlPoints,self.knots,u,i,p)
-#                y = self.__coxDeBoorY(self.degree,self.controlPoints,self.knots,u,i,p)
-#                self.points.append(x/y)
-#                u += 0.01
 
+    def __coxDeBoor(self,degree = None, controlPoints = None, knots = None, u = None, i = None, p = None, homogenousCoordinates = None):
+        '''original CoxDeBoor algorithm return the value at u i.e. f(u) = coxDeBoor'''
+        if p == 0 :
+            return controlPoints[i] * homogenousCoordinates[i]
+        else:
+            bottom = (knots[i + degree + 1 - p] - knots[i])
+            if bottom == 0:
+                bottom = 1
+            alpha =  (u - knots[i])/bottom
+            return self.__coxDeBoor(degree = degree, controlPoints = controlPoints, knots = knots, u = u, i = i-1, p = p - 1, homogenousCoordinates = homogenousCoordinates) * ( 1 - alpha) + self.__coxDeBoor(degree = degree, controlPoints = controlPoints, knots = knots, u = u, i = i, p = p - 1, homogenousCoordinates = homogenousCoordinates) * alpha
+
+
+    def __coxDeBoorHomogenousCoordinates(self,degree = None, controlPoints = None, knots = None, u = None, i = None, p = None, homogenousCoordinates = None):
+        '''CoxDeBoor algorithm for Homogenous Coordinates'''
+        if p == 0 :
+            return homogenousCoordinates[i]
+        else:
+            bottom = (knots[i + degree + 1 - p] - knots[i])
+            if bottom == 0:
+                bottom = 1
+            alpha =  (u - knots[i])/bottom
+            return self.__coxDeBoorHomogenousCoordinates(degree = degree, controlPoints = controlPoints, knots = knots, u = u, i = i - 1, p = p - 1, homogenousCoordinates = homogenousCoordinates) * ( 1 - alpha) + self.__coxDeBoorHomogenousCoordinates(degree = degree, controlPoints = controlPoints, knots = knots, u = u, i = i, p = p - 1, homogenousCoordinates = homogenousCoordinates) * alpha
+
+    def __coxDeBoorWithDictionary(self,degree = None , controlPoints = None, knots = None, u = None, i = None, homogenousCoordinates = None):
+        '''original CoxDeBoor algorithm computed with dictionaries'''
+        top = 1
+        bottom = 1
+        dictionary = {}
+        for x in range (i - degree , i + 1, 1):
+            for y in range(0, x + 1 , 1):
+                if y == 0:
+                    dictionary[str(x)+','+str(y)+ ',' + str(u)] = controlPoints[x] * homogenousCoordinates[x]
+                
+                else:
+                    alphaBottom = (knots[x + degree + 1 - y] - knots[x])
+                    if alphaBottom == 0:
+                        alphaBottom = 1
+                    alpha =  (u - knots[x])/alphaBottom
+                
+                    top = alpha
+                    bottom = 1 - top
+                    bottomVal = 0
+                    if str(x-1)+','+str(y-1) + ',' + str(u) in dictionary:
+                        bottomVal = dictionary[str(x-1)+','+str(y-1) + ',' + str(u)]
                     
-    def __coxDeBoor(self,degree,controlPoints,knots,u,i, p):
-        '''original CoxDeBoor algorithm'''
-        if p == 0 :
-            return controlPoints[i] * self.homogenousCoordinates[i]
-        else:
-            bottom = (knots[i + degree + 1 - p] - knots[i])
-            if bottom == 0:
-                bottom = 1
-            alpha =  (u - knots[i])/bottom
-            return self.__coxDeBoor(degree,controlPoints,knots,u,i - 1, p - 1)* (1-alpha) + self.__coxDeBoor(degree, controlPoints,knots,u, i , p - 1) * alpha
+                    dictionary[str(x)+','+str(y) + ',' + str(u) ] =  dictionary[str(x)+','+str(y-1)+ ',' + str(u)] * top + bottomVal * bottom
+    
+        return dictionary[str(i)+','+str(degree) + ',' + str(u)]
 
-    def __coxDeBoorY(self,degree,controlPoints,knots,u,i, p):
-        '''original CoxDeBoor algorithm'''
-        if p == 0 :
-            return self.homogenousCoordinates[i]
-        else:
-            bottom = (knots[i + degree + 1 - p] - knots[i])
-            if bottom == 0:
-                bottom = 1
-            alpha =  (u - knots[i])/bottom
-            return self.__coxDeBoorY(degree,controlPoints,knots,u,i - 1, p - 1)* (1-alpha) + self.__coxDeBoorY(degree, controlPoints,knots,u, i , p - 1) * alpha
+    def __coxDeBoorHomogenousCoordinatesWithDictionary(self,degree = None , controlPoints = None, knots = None, u = None, i = None, homogenousCoordinates = None):
+        '''original CoxDeBoor algorithm computed with dictionaries'''
+        top = 1
+        bottom = 1
+        dictionary = {}
+        for x in range (i - degree , i + 1, 1):
+            for y in range(0, x + 1 , 1):
+                if y == 0:
+                    dictionary[str(x)+','+str(y)+ ',' + str(u)] = homogenousCoordinates[x]
+                
+                else:
+                    alphaBottom = (knots[x + degree + 1 - y] - knots[x])
+                    if alphaBottom == 0:
+                        alphaBottom = 1
+                    alpha =  (u - knots[x])/alphaBottom
+                
+                    top = alpha
+                    bottom = 1 - top
+                    bottomVal = 0
+                    if str(x-1)+','+str(y-1) + ',' + str(u) in dictionary:
+                        bottomVal = dictionary[str(x-1)+','+str(y-1) + ',' + str(u)]
+                    
+                    dictionary[str(x)+','+str(y) + ',' + str(u) ] =  dictionary[str(x)+','+str(y-1)+ ',' + str(u)] * top + bottomVal * bottom
+    
+        return dictionary[str(i)+','+str(degree) + ',' + str(u)]
 
 
-    def __computeKnotVector(self, degree = 0 , knotVectorType = None):
+    def __computeKnotVector(self, degree = 0 , knotVectorType = None, controlPoints = None):
         knots = []
-
+        if not knotVectorType :
+            return self.__computeKnotVector(degree, "uniform")
+    
         # open uniform
-        if knotVectorType == "open uniform":
-            for i in range (0,degree):
+        if knotVectorType == "open":
+            for i in range (1,degree + 1):
                 knots.append(0)
-
-            for i in range(len(knots),len(self.controlPoints) + 1):
-                knots.append(i - degree + 1)
-
-            for i in range(len(self.controlPoints) + 2,len(self.controlPoints) + len(knots) + 1):
-                knots.append(len(self.controlPoints) - degree + 1)
+            
+            for i in range(degree + 1,len(controlPoints) + 1):
+                knots.append(i - degree)
+            
+            for i in range(len(controlPoints) + 2, len(controlPoints) + len(knots) + 1):
+                knots.append(len(controlPoints) - degree + 1)
             return knots
-        # uniform sequence
-        elif knotVectorType == "periodic uniform":
-            knots =[x for x in range(len(self.controlPoints) + degree + 1)]
+                
+        # periodic uniform sequence
+        elif knotVectorType == "periodic":
+            knots =[x for x in range(0,len(controlPoints) + degree )]
             return knots
-
-        elif knotVectorType == "open uniform bezier":
-            for i in range (0,len(self.controlPoints)):
+    
+        elif knotVectorType == "bezier":
+            for i in range (0,len(controlPoints)):
                 knots.append(0)
-            for i in range(len(knots),2 * len(self.controlPoints)):
+            for i in range(len(knots), 2 * len(controlPoints)):
                 knots.append(1)
             return knots
-
-        elif knotVectorType == "spiral":
-            j = 0
-            for i in range (1,len(self.controlPoints) + degree + 2):
-                knots.append(j)
-                if i % 4 == 0:
-                    j += 1
-            return knots
-
-        # nonuniform?
-        elif knotVectorType == "nonuniform":
-            for i in range (0,degree):
-                knots.append(0)
-
-            for i in range(len(knots),len(self.controlPoints) + 1):
-                knots.append(degree  - 2)
-
-            for i in range(len(self.controlPoints) + 2,len(self.controlPoints) + len(knots) + 1):
-                knots.append(len(self.controlPoints) - degree + 2)
-            return knots
-
+        
         else:
             return knots
 
@@ -153,5 +169,4 @@ class NURBS(GeneralObject):
 def checkU(u = None, knots = None):
     for i in range(1, len(knots)):
         if u >= knots[i] and u < knots[i+1]:
-#            print(knots[i] ,u ,knots[i+1],i)
             return i
