@@ -28,10 +28,10 @@ class NURBS(GeneralObject):
         self.points = []
         self.controlPoints = controlPoints
         self.degree = degree
-        
+        print(self.degree, degree)
         if self.degree == 0 or self.degree  >= len(self.controlPoints):
             self.degree = len(self.controlPoints) - 1
-        
+        print(self.degree)
         if knotVector:
             self.knots = knotVector
         else:
@@ -42,7 +42,6 @@ class NURBS(GeneralObject):
             self.knots = self.__computeKnotVector( degree = self.degree , knotVectorType = self.knotVectorType, controlPoints = self.controlPoints)
                  
         self.setHomogenousCoordinates(homogenousCoordinates = homogenousCoordinates, controlPoints = self.controlPoints)
-
         
         u = self.knots[ self.degree  ]
         stopU = self.knots[len(self.knots) - self.degree]
@@ -155,11 +154,17 @@ class NURBS(GeneralObject):
             knots =[x for x in range(0,len(controlPoints) + degree )]
             return knots
     
+  
         elif knotVectorType == "bezier":
-            for i in range (0,len(controlPoints)):
+            for i in range (0, degree + 1,1):
                 knots.append(0)
-            for i in range(len(knots), 2 * len(controlPoints)):
-                knots.append(1)
+            for i in range(1, len(controlPoints) + degree - 2 * (degree),1):
+                knots.append(i)
+            knotVectorSize = len(knots)
+            for i in range(0,degree + 1, 1):
+                knots.append(knotVectorSize - degree)
+
+            print(knots)
             return knots
         
         else:
