@@ -3,7 +3,6 @@
 DrawingWindow
 ----------
 **DrawingWindow*** creates a GLStandardDrawingWindow from QGLWidget.
-Used to make a window that allows the user to draw Rectangles while dragging the mouse.
 
 Implements : mousePressEvent
              mouseMoveEvent
