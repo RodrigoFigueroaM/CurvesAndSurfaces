@@ -14,7 +14,6 @@ helper method: distance
 
 attributes
 ----------
-    *colorCounter to decide the color of the lines.
 '''
 import math
 from Point import Point
