@@ -120,12 +120,12 @@ class DrawingWindow(GLStandardDrawingWindow):
     # Draw Curves
     def drawSpline(self, spline):
        GL.glColor3ub(216, 76, 230)
-        GL.glPointSize(2.0)
-        GL.glLineWidth(2.0)
-        GL.glBegin(GL.GL_LINE_STRIP)
-        for point in spline.points:
+       GL.glPointSize(2.0)
+       GL.glLineWidth(2.0)
+       GL.glBegin(GL.GL_LINE_STRIP)
+       for point in spline.points:
             GL.glVertex3fv(point.data())  #  #map points according to the coordinates they belong to
-        GL.glEnd()
+       GL.glEnd()
 
 def listToVertex(inList):
     outList=[]
