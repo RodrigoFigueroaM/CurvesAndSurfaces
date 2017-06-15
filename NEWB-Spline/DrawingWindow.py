@@ -9,7 +9,6 @@ Implements : mousePressEvent
              paintGL
 attributes
 ----------
-    *colorCounter to decide the color of the lines.
 '''
 
 import math
@@ -126,12 +125,6 @@ class DrawingWindow(GLStandardDrawingWindow):
 
     # Draw Curves
     def drawSpline(self, spline):
-        # if len(self.history) > 0:
-        #     GL.glColor3f(.85, .30, .90)
-        #     GL.glPointSize(2.0)
-        #     GL.glLineWidth(2.0)
-        #     GL.glVertexPointer(3, GL.GL_FLOAT, 0, self.historyBuffer)
-        #     GL.glDrawArrays(GL.GL_LINE_STRIP, 0, len(self.historyBuffer))
         GL.glColor3ub(216, 76, 230)
         GL.glPointSize(2.0)
         GL.glLineWidth(2.0)
