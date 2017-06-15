@@ -120,17 +120,7 @@ class Bspline(GeneralObject):
             for i in range(len(knots),2 * len(self.controlPoints)):
                 knots.append(1)
             return knots
-            
-            #elif knotVectorType == "spiral":
-            #j = 0
-            #for i in range (1,len(self.controlPoints) + degree + 2):
-            #   knots.append(j)
-            #   if i % 4 == 0:
-            #       j += 1
-            #return knots
-
-
-        # nonuniform?
+        
         elif knotVectorType == "nonuniform":
             for i in range (0,degree):
                 knots.append(0)
@@ -141,23 +131,12 @@ class Bspline(GeneralObject):
             for i in range(len(self.controlPoints) + 2,len(self.controlPoints) + len(knots) + 1):
                 knots.append(len(self.controlPoints) - degree + 2)
             return knots
-        
-        # if knotVectorType == "closed uniform":
-        #     m = len(self.controlPoints) + 1 + degree
-        #     knots =[x for x in range((len(self.controlPoints)+ degree)/2 + 1)]
-        #     j = 0
-        #     for i in range(len(knots),len(self.controlPoints) + 1):
-        #         knots.append(knots[i-j])
-        #         j += 1
-        
-        #     return knots
-        
+
         else:
             return knots
 
 def checkU(u = None, knots = None):
     for i in range(1, len(knots)):
         if u >= knots[i] and u < knots[i+1]:
-            #            print(knots[i] ,u ,knots[i+1],i)
             return i
 
