@@ -21,7 +21,7 @@ class CatmullRom(GeneralObject):
                 self.__computeCurve(userDefinedPoints[i], userDefinedPoints[i+1], userDefinedPoints[i+2],userDefinedPoints[i+3])
                 i += 1
         else:
-            sprint('at least 4 points need to be provided ')
+            print('at least 4 points need to be provided ')
 
     def __computeCurve(self, p0, p1, p2, p3):
         '''q(t) = 0.5 *( (2 * P1) + (-P0 + P2) * t + (2*P0 - 5*P1 + 4*P2 - P3) * t2 +(-P0 + 3*P1- 3*P2 + P3) * t3)'''
